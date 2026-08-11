@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      height:100vh;
+      overflow:hidden;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      font-family:Arial, Helvetica, sans-serif;
+
+      /* Pink - Purple - Blue gradient */
+      background:linear-gradient(135deg,#ff6ec7,#a855f7,#3b82f6);
+      position:relative;
+    }
+
+    /* Bigger Main Card */
+    .container{
+      text-align:center;
+      background:rgba(255,255,255,0.15);
+      backdrop-filter:blur(12px);
+      padding:70px 60px;
+      border-radius:30px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.25);
+
+      width:95%;
+      max-width:750px;
+
+      z-index:2;
+      border:1px solid rgba(255,255,255,0.3);
+    }
+
+    h1{
+      font-size:4rem;
+      color:white;
+      margin-bottom:20px;
+      text-shadow:2px 2px 12px rgba(0,0,0,0.25);
+      animation:bounce 2s infinite;
+    }
+
+    h2{
+      color:white;
+      margin-bottom:20px;
+      font-size:2rem;
+    }
+
+    p{
+      color:white;
+      font-size:1.2rem;
+      margin-bottom:35px;
+      line-height:1.7;
+    }
+
+    button{
+      padding:16px 34px;
+      font-size:1.1rem;
+      border:none;
+      border-radius:50px;
+      background:white;
+      color:#a855f7;
+      font-weight:bold;
+      cursor:pointer;
+      transition:0.3s;
+      box-shadow:0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    button:hover{
+      transform:scale(1.08);
+      background:#a855f7;
+      color:white;
+    }
+
+    /* Floating Balloons */
+    .balloon{
+      position:absolute;
+      bottom:-150px;
+      width:70px;
+      height:90px;
+      border-radius:50%;
+      opacity:0.85;
+      animation:float linear infinite;
+    }
+
+    .balloon::before{
+      content:"";
+      position:absolute;
+      top:20px;
+      left:18px;
+      width:15px;
+      height:15px;
+      border-radius:50%;
+      background:rgba(255,255,255,0.4);
+    }
+
+    .balloon::after{
+      content:"";
+      position:absolute;
+      width:2px;
+      height:90px;
+      background:white;
+      top:90px;
+      left:50%;
+      transform:translateX(-50%);
+    }
+
+    .b1{
+      left:5%;
+      background:#ff69b4;
+      animation-duration:10s;
+      animation-delay:0s;
+    }
+
+    .b2{
+      left:20%;
+      background:#d946ef;
+      animation-duration:12s;
+      animation-delay:2s;
+    }
+
+    .b3{
+      left:40%;
+      background:#60a5fa;
+      animation-duration:9s;
+      animation-delay:1s;
+    }
+
+    .b4{
+      left:60%;
+      background:#c084fc;
+      animation-duration:11s;
+      animation-delay:3s;
+    }
+
+    .b5{
+      left:80%;
+      background:#38bdf8;
+      animation-duration:13s;
+      animation-delay:1.5s;
+    }
+
+    .b6{
+      left:92%;
+      background:#f472b6;
+      animation-duration:10s;
+      animation-delay:2.5s;
+    }
+
+    @keyframes float{
+      0%{
+        transform:translateY(0) rotate(0deg);
+      }
+      100%{
+        transform:translateY(-120vh) rotate(360deg);
+      }
+    }
+
+    @keyframes bounce{
+      0%,20%,50%,80%,100%{
+        transform:translateY(0);
+      }
+      40%{
+        transform:translateY(-10px);
+      }
+      60%{
+        transform:translateY(-5px);
+      }
+    }
+
+    /* Mobile Responsive */
+    @media(max-width:600px){
+      .container{
+        padding:50px 25px;
+      }
+
+      h1{
+        font-size:2.8rem;
+      }
+
+      h2{
+        font-size:1.5rem;
+      }
+
+      p{
+        font-size:1rem;
+      }
+
+      button{
+        width:100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating Balloons -->
+  <div class="balloon b1"></div>
+  <div class="balloon b2"></div>
+  <div class="balloon b3"></div>
+  <div class="balloon b4"></div>
+  <div class="balloon b5"></div>
+  <div class="balloon b6"></div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h1>🎉Happy Birthday🎂</h1>
+
+    <h2>EMEEE MYLABSS</h2>
+
+    <p>
+      Sana mabuhay ka pa ng matagal more boys to comee.<br>
+	  Open mo yan pinaghirapan ko toooo char
+    </p>
+
+    <button onclick="openGreeting()">
+      Open Your Surprise 🎁
+    </button>
+  </div>
+
+  <script>
+    function openGreeting(){
+      window.location.href = "abs.html";
+    }
+  </script>
+
+</body>
+</html>
