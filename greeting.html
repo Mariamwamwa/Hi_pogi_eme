@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Birthday Surprise</title>
+
+  <style>
+   *{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+  background: linear-gradient(135deg, #6a5cff, #8b5cf6, #4f8cff);
+  position:relative;
+  font-family:Arial,sans-serif;
+}
+
+/* Center birthday text inside a card */
+.message{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+  text-align:center;
+  color:white;
+  z-index:10;
+  text-shadow:0 0 10px rgba(255,255,255,0.4);
+
+  /* Card design */
+  width:90%;
+  max-width:650px;
+  padding:45px 35px;
+  border-radius:30px;
+  background: rgba(255,255,255,0.15);
+  border:2px solid rgba(255,255,255,0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow:
+    0 10px 35px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+  pointer-events:none;
+}
+
+.message h1{
+  font-size:3rem;
+  margin-bottom:15px;
+  color:#ffffff;
+}
+
+.message p{
+  font-size:1.2rem;
+  color:#f3f4ff;
+  line-height:1.6;
+}
+
+/* Bubble image style */
+.bubble{
+  position:absolute;
+  width:150px;
+  height:150px;
+  border-radius:50%;
+  overflow:hidden;
+  cursor:pointer;
+}
+
+.bubble img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* Chat popup */
+.chat-popup{
+  position:fixed;
+  bottom:30px;
+  left:50%;
+  transform:translateX(-50%);
+  background:white;
+  color:#333;
+  padding:16px 22px;
+  border-radius:20px 20px 20px 5px;
+  max-width:320px;
+  font-size:1rem;
+  line-height:1.4;
+  box-shadow:0 8px 25px rgba(0,0,0,0.25);
+  z-index:999;
+  animation:pop .25s ease;
+}
+
+@keyframes pop{
+  from{
+    opacity:0;
+    transform:translateX(-50%) scale(0.8);
+  }
+  to{
+    opacity:1;
+    transform:translateX(-50%) scale(1);
+  }
+}
+
+/* ❤️ Heart button */
+.heart-button{
+  position:fixed;
+  top:25px;
+  right:25px;
+  width:60px;
+  height:60px;
+  border:none;
+  border-radius:50%;
+  background:rgba(255,255,255,0.2);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:2px solid rgba(255,255,255,0.4);
+  color:white;
+  font-size:30px;
+  cursor:pointer;
+  z-index:1000;
+  box-shadow:0 5px 20px rgba(0,0,0,0.2);
+  transition:0.2s ease;
+}
+
+.heart-button:hover{
+  transform:scale(1.1);
+  background:rgba(255,255,255,0.3);
+}
+
+.heart-button:active{
+  transform:scale(0.95);
+}
+  </style>
+</head>
+<body>
+
+  <!-- Birthday message -->
+  <div class="message">
+    <h1>LABYU MWAMWAAAAAA</h1>
+    <p>Pindutin mo lang yung mga ulo, may surprise jannn, iba iba yan haha</p>
+  </div>
+
+  <!-- ❤️ Heart Button -->
+  <button class="heart-button" id="heartButton">❤️</button>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" autoplay loop>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // List of your head pictures
+const images = [
+  "images/1.png",
+  "images/2.png",
+  "images/3.png",
+  "images/4.png",
+  "images/5.png",
+  "images/6.png",
+  "images/7.png",
+  "images/8.png",
+  "images/9.png",
+  "images/10.png",
+  "images/11.png",
+  "images/12.png",
+  "images/13.png",
+  "images/14.png",
+  "images/15.png"
+];
+
+// Different message for each picture
+const messages = [
+  "Happy Birthday! Sana this year, hindi lang grades ang tumataas—pati number ng pogi sa life mo 😭💖",
+  "Sana mahanap mo na ang crush na hindi lang pogi, marunong din mag-reply 😂📱",
+  "Birthday wish: good grades, good health, at isang pogi na worth the delulu 😌💅",
+  "Sana this year, puro pogi ang mapunta sa’yo… at sana single sila 😭😂",
+  "Happy Birthday! Sana may bagong crush na dumating, yung hindi hanggang tingin lang 😭💖",
+  "Sana ang lovelife mo this year ay parang buffet—maraming choices, pero piliin ang best 😭😂",
+  "Teh, college life is temporary, pero paghahanap ng pogi? Lifetime commitment 😭💅",
+  "Happy Birthday sa pinaka-dramatic pero pinaka-mabait kong friend 🎭💖",
+  "Happy Birthday! Sana lahat ng pogi na makita mo this year ay may magandang personality din 😌✨",
+  "Sana ang next crush mo ay hindi red flag… kahit medyo distracting sa OJT 😂🚩",
+  "Birthday mo, kaya deserve mo ng cake, gifts, at isang pogi na mag-“hi” sa’yo 😭🎂",
+    "Ang wish ko para sa’yo: clear skin, maraming pera, at walang toxic na lalaki 💸✨",
+  "Happy Birthday! Sana this year, hindi ka lang taga-like sa stories—may mag-like rin sa’yo 😭📱",
+  "Sana ang crush mo this year ay crush ka rin. Basic requirements lang naman 😭💅",
+  "More blessings, more memories, more pogi sightings! Happy Birthday! 😂🔥🎂"
+];
+
+const audios = [
+  "audio/1.mp3",
+  "audio/2.mp3",
+  "audio/3.mp3",
+  "audio/4.mp3",
+  "audio/5.mp3",
+  "audio/6.mp3",
+  "audio/ac.mp3",
+  "audio/gela.ogg",
+  "audio/hana.ogg",
+  "audio/jess.mp3",
+  "audio/lenly.wav",
+  "audio/marya.ogg",
+  "audio/mj.ogg",
+  "audio/robert.mp3",
+  "audio/zai.wav"
+];
+
+function showMessage(text){
+  const old = document.querySelector('.chat-popup');
+  if(old) old.remove();
+
+  const popup = document.createElement('div');
+  popup.className = 'chat-popup';
+  popup.textContent = text;
+
+  document.body.appendChild(popup);
+
+  setTimeout(() => {
+    popup.remove();
+  }, 3000);
+}
+
+    const bubbles = [];
+    const count = 40; // number of floating bubbles
+
+    // Create bubbles
+    for(let i = 0; i < count; i++){
+
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+
+      const img = document.createElement('img');
+      const imgIndex = i % images.length;
+      img.src = images[imgIndex];
+
+      bubble.addEventListener('click', () => {
+        showMessage(messages[imgIndex] || "Happy Birthday! 💖");
+		
+		 const voice = new Audio(audios[imgIndex]);
+  voice.play();
+      });
+
+      bubble.appendChild(img);
+      document.body.appendChild(bubble);
+
+      const size = 150 + Math.random() * 70;
+      bubble.style.width = size + 'px';
+      bubble.style.height = size + 'px';
+
+      const obj = {
+        el: bubble,
+        x: Math.random() * (window.innerWidth - size),
+        y: Math.random() * (window.innerHeight - size),
+        vx: (Math.random() - 0.5) * 1.2,
+        vy: (Math.random() - 0.5) * 1.2,
+        size: size
+      };
+
+      bubble.style.left = obj.x + 'px';
+      bubble.style.top = obj.y + 'px';
+
+      bubbles.push(obj);
+    }
+
+    // Animate bouncing bubbles
+    function animate(){
+
+      bubbles.forEach(b => {
+
+        b.x += b.vx;
+        b.y += b.vy;
+
+        // Bounce horizontally
+        if(b.x <= 0 || b.x + b.size >= window.innerWidth){
+          b.vx *= -1;
+        }
+
+        // Bounce vertically
+        if(b.y <= 0 || b.y + b.size >= window.innerHeight){
+          b.vy *= -1;
+        }
+
+        b.el.style.left = b.x + 'px';
+        b.el.style.top = b.y + 'px';
+
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    // Keep music playing
+    const music = document.getElementById('bgMusic');
+music.volume = 0.25;
+    document.body.addEventListener('click', () => {
+      music.play();
+    });
+
+    // ❤️ Heart button
+    const heartButton = document.getElementById('heartButton');
+
+    heartButton.addEventListener('click', (event) => {
+
+      // Prevent the body click event from restarting music
+      event.stopPropagation();
+
+      // Pause background music
+      music.pause();
+
+      // Play special audio
+      const heartAudio = new Audio("audio/special_CM.ogg");
+      heartAudio.play();
+
+    });
+
+  </script>
+
+</body>
+</html>
+
